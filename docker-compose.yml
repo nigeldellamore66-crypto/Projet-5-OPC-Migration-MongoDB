@@ -1,0 +1,62 @@
+services:
+  mongo:
+    image: mongo:7.0.25
+    container_name: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    volumes:
+      - mongo_data:/data/db
+      - mongo_backups:/backups
+    ports:
+      - "27017:27017"
+
+  migration:
+    build: .
+    depends_on:
+      - mongo
+    volumes:
+      - ./data:/data
+    restart: "no"
+    profiles: ["run-once"]
+
+  backup:
+    image: mongo:7.0.25
+    container_name: mongo-backup
+    depends_on:
+      - mongo
+    volumes:
+      - mongo_backups:/backups
+    entrypoint: >
+      bash -c "
+      while true; do
+        mongodump --uri='mongodb://healthcare_app:password123@mongo:27017/healthcare?authSource=admin' --out=/backups/$(date +%Y-%m-%d_%H-%M-%S);
+        find /backups -maxdepth 1 -mtime +3 -type d -exec rm -rf '{}' \;
+        sleep 7200;
+      done
+      "
+
+  mongo_test:
+    image: mongo:7.0.25
+    container_name: mongo_test
+    ports:
+      - "27018:27017"
+    command: mongod --bind_ip_all --noauth
+
+  tests:
+    build: .
+    container_name: migration_tests
+    depends_on:
+      - mongo_test
+    volumes:
+      - .:/app  
+    restart: "no"
+    working_dir: /app
+    environment:
+      - PYTHONPATH=/app  
+    command: pytest -v --disable-warnings
+    profiles: ["run-tests"]
+
+volumes:
+  mongo_data:
+  mongo_backups:
