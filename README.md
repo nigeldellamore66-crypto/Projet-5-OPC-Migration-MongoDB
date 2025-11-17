@@ -20,6 +20,7 @@ https://www.kaggle.com/datasets/prasad22/healthcare-dataset?resource=download
 - un fichier requirements.txt dans lequel sont définis les dépendances du dockerfile
 - un dossier /src/ qui contient le script python de migration
 - un dossier /tests/ qui contient le script de tests automatisés
+- un dossier /data/ qui doit contenir le fichier de données
 
 ## Lancer la migration
 
