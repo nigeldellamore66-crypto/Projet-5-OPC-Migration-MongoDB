@@ -4,9 +4,8 @@ from src.validation import validate_dataframe, validate_after_migration
 from src.db import create_user,index_unique,get_db
 from src.config import MONGO_ADMIN_URI,DB_NAME,MONGO_URI,COLLECTION_NAME
 
-# Définition de la fonction Main
-def main():
 
+if __name__ == "__main__":
 # Chargement du fichier source dans un dataframe et nettoyage
     df= load_batch()
 
@@ -45,7 +44,3 @@ def main():
             print("  -", e)
     else:
         print("Intégrité confirmée après insertion")
-
-# Exécution de la fonction main au lancement du script
-if __name__ == "__main__":
-    main()
