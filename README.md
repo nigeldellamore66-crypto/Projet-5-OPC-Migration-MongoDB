@@ -15,9 +15,9 @@ https://www.kaggle.com/datasets/prasad22/healthcare-dataset?resource=download
 
 ## Contenu de l'application
 
-- un fichier dockercompose.yml 
-- un fichier dockerfile qui construit le conteneur de migration
-- un fichier prerequis.txt dans lequel sont définis les dépendances que doit installer le conteneur de migration
+- un fichier dockercompose.yml qui construit l'architecture des conteneurs
+- un fichier dockerfile qui permet d'éxécuter le script de migration
+- un fichier requirements.txt dans lequel sont définis les dépendances du dockerfile
 - un dossier /src/ qui contient le script python de migration
 - un dossier /tests/ qui contient le script de tests automatisés
 
