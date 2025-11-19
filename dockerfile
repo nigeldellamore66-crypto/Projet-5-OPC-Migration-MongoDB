@@ -7,9 +7,10 @@ RUN pip install --upgrade pip setuptools wheel
 
 COPY requirements.txt .
 
-RUN pip install --prefer-binary -r prerequis.txt
+RUN pip install --prefer-binary -r requirements.txt
 
 COPY . .
 
 
 CMD ["python","-m", "src.run"]
+
