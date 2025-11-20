@@ -22,6 +22,28 @@ https://www.kaggle.com/datasets/prasad22/healthcare-dataset?resource=download
 - un dossier /tests/ qui contient le script de tests automatisés
 - un dossier /data/ qui doit contenir le fichier de données
 
+## Gestion des utilisateurs MongoDB
+
+Deux utilisateurs sont utilisés pour sécuriser la base :
+
+### root (administrateur)
+
+- Créé automatiquement au démarrage
+
+- A tous les droits sur MongoDB
+
+- Utilisé uniquement pour l’initialisation, la création d’utilisateurs et les tâches d’administration
+
+### Utilisateur applicatif (readWrite)
+
+- Accès uniquement à la base healthcare
+
+- Rôle : readWrite
+
+- Utilisé par l’application, les migrations et les scripts de traitement
+
+- Ne peut ni modifier la configuration MongoDB ni accéder aux autres bases
+
 ## Lancer la migration
 
 Dans le répertoire du projet, exécuter :

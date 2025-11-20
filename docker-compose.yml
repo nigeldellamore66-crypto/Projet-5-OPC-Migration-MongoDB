@@ -10,6 +10,8 @@ services:
       - mongo_backups:/backups
     ports:
       - "27017:27017"
+    networks:
+      - db_net
 
   migration:
     build: .
@@ -19,6 +21,8 @@ services:
       - ./data:/data
     restart: "no"
     profiles: ["run-once"]
+    networks:
+      - db_net
 
   backup:
     image: mongo:7.0.25
@@ -30,11 +34,13 @@ services:
     entrypoint: >
       bash -c "
       while true; do
-        mongodump --uri='mongodb://healthcare_app:password123@mongo:27017/healthcare?authSource=admin' --out=/backups/$(date +%Y-%m-%d_%H-%M-%S);
+        mongodump --uri='mongodb://admin:admin123@mongo:27017' --out=/backups/$(date +%Y-%m-%d_%H-%M-%S);
         find /backups -maxdepth 1 -mtime +3 -type d -exec rm -rf '{}' \;
         sleep 7200;
       done
       "
+    networks:
+      - db_net
 
   mongo_test:
     image: mongo:7.0.25
@@ -42,6 +48,8 @@ services:
     ports:
       - "27018:27017"
     command: mongod --bind_ip_all --noauth
+    networks:
+      - test_net
 
   tests:
     build: .
@@ -50,13 +58,20 @@ services:
       - mongo_test
     volumes:
       - .:/app  
-    restart: "no"
     working_dir: /app
     environment:
-      - PYTHONPATH=/app  
+      PYTHONPATH: /app
+      MONGO_URI: "mongodb://mongo_test:27017"
     command: pytest -v --disable-warnings
+    restart: "no"
     profiles: ["run-tests"]
+    networks:
+      - test_net
 
 volumes:
   mongo_data:
   mongo_backups:
+
+networks:
+  db_net:
+  test_net:
