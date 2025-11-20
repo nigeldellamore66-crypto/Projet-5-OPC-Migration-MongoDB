@@ -28,21 +28,21 @@ Deux utilisateurs sont utilisés pour sécuriser la base :
 
 ### root (administrateur)
 
-Créé automatiquement au démarrage
+- Créé automatiquement au démarrage
 
-A tous les droits sur MongoDB
+- A tous les droits sur MongoDB
 
-Utilisé uniquement pour l’initialisation, la création d’utilisateurs et les tâches d’administration
+- Utilisé uniquement pour l’initialisation, la création d’utilisateurs et les tâches d’administration
 
 ### Utilisateur applicatif (readWrite)
 
-Accès uniquement à la base healthcare
+- Accès uniquement à la base healthcare
 
-Rôle : readWrite
+- Rôle : readWrite
 
-Utilisé par l’application, les migrations et les scripts de traitement
+- Utilisé par l’application, les migrations et les scripts de traitement
 
-Ne peut ni modifier la configuration MongoDB ni accéder aux autres bases
+- Ne peut ni modifier la configuration MongoDB ni accéder aux autres bases
 
 ## Lancer la migration
 
